@@ -7,6 +7,9 @@ while num > 0:
     num = num // 10
     cont = cont + 1
 print("o número tem", cont, "dígitos")
+print("o número tem {} dígitos".format(cont))
+print(f"o número tem {cont} dígitos")
+
 
 # usando for
 num = int(input("digite um número inteiro positivo"))
