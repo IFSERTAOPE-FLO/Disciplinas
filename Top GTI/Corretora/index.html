@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Corretora de Imóveis XYZ</title>
+    <style>
+      /* Adicione o código CSS aqui */
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+      }
+
+      h1 {
+        color: #333;
+        text-align: center;
+      }
+
+      h2 {
+        color: #666;
+      }
+
+      .imovel {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px;
+        background-color: #fff;
+      }
+
+      .endereco {
+        font-weight: bold;
+      }
+
+      .preco {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #009900;
+      }
+
+      .tamanho {
+        font-size: 0.9em;
+        color: #666;
+      }
+
+      .quartos {
+        font-size: 0.9em;
+        color: #666;
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .page-item {
+        margin: 0 5px;
+      }
+
+      .page-link {
+        color: #333;
+        text-decoration: none;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        border-radius: 5px;
+      }
+
+      .page-link:hover {
+        background-color: #f2f2f2;
+      }
+
+      .page-link.active {
+        background-color: #009900;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Corretora de Imóveis XYZ</h1>
+    <h2>Imóveis à Venda</h2>
+    <div id="imoveis-venda"></div>
+    <div class="pagination" id="pagination-venda"></div>
+    <h2>Imóveis para Alugar</h2>
+    <div id="imoveis-aluguel"></div>
+    <div class="pagination" id="pagination-aluguel"></div>
+    <script>
+      // Adicione o código JavaScript aqui
+      const imoveisVenda = [
+        {
+          endereco: "Rua A, 123",
+          preco: "$500,000.00",
+          tamanho: "200 m²",
+          quartos: "3",
+        },
+        {
+          endereco: "Rua B, 456",
+          preco: "$750,000.00",
+          tamanho: "300 m²",
+          quartos: "4",
+        },
+        {
+          endereco: "Rua C, 789",
+          preco: "$1,000,000.00",
+          tamanho: "400 m²",
+          quartos: "5",
+        },
+        {
+          endereco: "Rua D, 111",
+          preco: "$2,000.00/mês",
+          tamanho: "100 m²",
+          quartos: "2",
+        },
+        {
+          endereco: "Rua E, 222",
+          preco: "$3,000.00/mês",
+          tamanho: "150 m²",
+          quartos: "3",
+        },
+        {
+          endereco: "Rua F, 333",
+          preco: "$4,000.00/mês",
+          tamanho: "200 m²",
+          quartos: "4",
+        },
+      ];
+
+      const imoveisPorPagina = 3;
+
+      function mostrarImoveis(imoveis, pagina, divImoveis, divPagination) {
+        const startIndex = (pagina - 1) * imoveisPorPagina;
+        const endIndex = startIndex + imoveisPorPagina;
+        const imoveisPagina = imoveis.slice(startIndex, endIndex);
+
+        let html = "";
+        for (let i = 0; i < imoveisPagina.length; i++) {
+          const imovel = imoveisPagina[i];
+          html += `
+            <div class="imovel">
+              <div class="endereco">${imovel.endereco}</div>
+              <div class="preco">${imovel.preco}</div>
+              <div class="tamanho">${imovel.tamanho}</div>
+              <div class="quartos">${imovel.quartos} quartos</div>
+            </div>
+          `;
+        }
+        divImoveis.innerHTML = html;
+
+        const numPaginas = Math.ceil(imoveis.length / imoveisPorPagina);
+        html = "";
+        for (let i = 1; i <= numPaginas; i++) {
+          html += `
+            <div class="page-item">
+              <a class="page-link ${i === pagina ? "active" : ""}" href="#" data-page="${i}">${i}</a>
+            </div>
+          `;
+        }
+        divPagination.innerHTML = html;
+
+        const links = divPagination.querySelectorAll(".page-link");
+        for (let i = 0; i < links.length; i++) {
+          const link = links[i];
+          link.addEventListener("click", function (event) {
+            event.preventDefault();
+            const pagina = parseInt(link.dataset.page);
+            mostrarImoveis(imoveis, pagina, divImoveis, divPagination);
+          });
+        }
+      }
+
+      mostrarImoveis(imoveisVenda, 1, document.getElementById("imoveis-venda"), document.getElementById("pagination-venda"));
+      mostrarImoveis(imoveisVenda, 1, document.getElementById("imoveis-aluguel"), document.getElementById("pagination-aluguel"));
+    </script>
+  </body>
+</html>
